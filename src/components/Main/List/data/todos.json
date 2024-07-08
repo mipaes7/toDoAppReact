@@ -1,0 +1,30 @@
+{
+    "todos": [
+      {
+        "title": "Buy groceries",
+        "description": "Milk, Bread, Cheese, Eggs, Vegetables",
+        "completed": false
+      },
+      {
+        "title": "Complete React project",
+        "description": "Finish coding the todo app, test it, and deploy",
+        "completed": false
+      },
+      {
+        "title": "Workout",
+        "description": "Go for a 30-minute run",
+        "completed": true
+      },
+      {
+        "title": "Read a book",
+        "description": "Read at least 30 pages of 'The Silmarillion'",
+        "completed": false
+      },
+      {
+        "title": "Call Mom",
+        "description": "Catch up with Mom and see how she is doing",
+        "completed": true
+      }
+    ]
+  }
+  
