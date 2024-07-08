@@ -32,3 +32,26 @@ li button:hover {
     display: flex;
     gap: 4px;
 }
+
+li.completed {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+.editTaskForm {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    padding: 4px;
+}
+
+.editTaskForm div {
+    display: flex;
+    flex-direction: column;
+}
+
+.descriptionEditContainer {
+    width: 100%;
+}

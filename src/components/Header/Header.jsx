@@ -2,7 +2,7 @@ import React from "react";
 
 const Header = () => {
   return <header>
-    <p>Contenido de header</p>
+    <h2>ToDoApp - TheBridge FS 2024</h2>
   </header>
 };
 

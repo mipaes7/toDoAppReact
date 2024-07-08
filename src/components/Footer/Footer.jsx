@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return <footer>
-    <div>Footer</div>
+    <h5>ToDoApp - TheBridge FS 2024</h5>
   </footer>
 };
 

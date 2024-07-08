@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import './List.css';
 import todoData from './data/todos.json';
@@ -15,11 +15,38 @@ function ToDoList() {
 
     const [formComponentVisible, setFormComponentVisible] = useState(false);
 
+    const [timeoutId, setTimeoutID] = useState(null);
+
+    const [addMessageVisible, setAddMessageVisible] = useState(false);
+
+    const [errorMsg, setErrorMsg] = useState('');
+
+    // const [editDialogVisible, setEditDialogVisible] = useState(false);
+
+    useEffect(() => {
+        setTodos(todoData.todos);
+    }, []);
+
+    useEffect(() => {
+        if (values.title) {
+            const id = setTimeout(() => {
+                setValues({ title:'', description:'', completed: false });
+            }, 10000);
+            setTimeoutID(id);
+        } else {
+            clearTimeout(timeoutId);
+        }
+    }, [values.title]);
+
     const renderToDos = () => todos.map((item, i) => <ToDoItem
         key={uuidv4()}
         dataItem={item}
         itemIndex={i + 1}
         deleteListElement = {() => { deleteItem(i) }}
+        handleCheckbox = {() => { toggleCompleted(i) }}
+        handleEditItem = { updateItem }
+        // showEdit = {() => { showEditDialog() }}
+        // hideEdit = {() => { hideEditDialog() }}
     />)
 
     const clearList = () => setTodos([]);
@@ -31,16 +58,41 @@ function ToDoList() {
         setTodos(remainingItems);
     };
 
+    const toggleCompleted = (i) => {
+        const updatedTodos = todos.map((item, index) => 
+            index === i ? { ...item, completed: !item.completed } : item
+        );
+
+        setTodos(updatedTodos);
+    };
+
+    const updateItem = (index, updatedItem) => {
+        const updatedTodos = todos.map((item, i) => 
+            i === index ? { ...item, ...updatedItem } : item
+        );
+        setTodos(updatedTodos);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const title = e.target.title.value;
         const description = e.target.description.value;
+
+        if (title.length < 6) {
+            setErrorMsg('Task title must have at least 6 characters');
+            return;
+        }
+
 
         const newTask = { title, description };
 
         setTodos([newTask, ...todos]);
         setValues({title: '', description: '', completed: false});
         setFormComponentVisible(false);
+        setErrorMsg('');
+
+        setAddMessageVisible(true);
+        setTimeout(() => setAddMessageVisible(false), 5000);
     };
 
     const handleChange = (e) => {
@@ -58,6 +110,15 @@ function ToDoList() {
     const hideFormComponent = () => {
         setFormComponentVisible(false);
     };
+
+    // const showEditDialog = () => {
+    //     e.stopPropagation();
+    //     setEditDialogVisible(true);
+    // };
+
+    // const hideEditDialog = () => {
+    //     setEditDialogVisible(false);
+    // };
 
     return <section className="listContainer">
         <article>
@@ -87,9 +148,17 @@ function ToDoList() {
                         <i>All fields must be filled</i>
                 }
 
+                {errorMsg && <p className="errorMsg">{errorMsg}</p>}
+
             </form>
             <button onClick={hideFormComponent}>Close</button>
         </article>
+        }
+        {
+        addMessageVisible &&
+        <div className="addedTaskMsg">
+            Task Added
+        </div>
         }
         <article className="toDosContainer">
             <ul>
